@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时间观自评量表 · Time Perspective Self-Assessment</title>
+<style>
+  /* Use system fonts for faster loading in China */
+  :root {
+    --navy: #1a3a6b;
+    --amber: #f5a623;
+    --green: #2e8b57;
+    --purple: #7b3fa0;
+    --red: #c0392b;
+    --blue-mid: #2d6a9f;
+    --bg: #f7f5f0;
+    --paper: #fffef9;
+    --ink: #1a1a2e;
+    --muted: #7a7a8a;
+    --border: #ddd8cc;
+    --fn-positive: #2e8b57;
+    --fn-hedonistic: #e67e22;
+    --fn-future: #2d6a9f;
+    --fn-negative: #c0392b;
+    --fn-fatalistic: #7b3fa0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .masthead {
+    background: var(--navy);
+    padding: 20px 16px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 20px,
+      rgba(255,255,255,.018) 20px, rgba(255,255,255,.018) 21px
+    );
+  }
+  .masthead-inner { position: relative; max-width: 700px; margin: 0 auto; }
+
+  .masthead-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .masthead-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.1);
+    padding: 4px;
+    flex-shrink: 0;
+  }
+  .masthead-name {
+    flex: 1;
+  }
+  .masthead-name-en {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .masthead-name-cn {
+    font-size: 12px;
+    color: #a0b8d8;
+    margin-top: 2px;
+  }
+  .masthead-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .masthead-title span { color: var(--amber); }
+  .masthead-sub {
+    font-size: 12px;
+    color: #a0b8d8;
+    line-height: 1.5;
+  }
+  .masthead-meta {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 10px;
+    color: #c8d8f0;
+    letter-spacing: .5px;
+  }
+
+  @media (min-width: 600px) {
+    .masthead { padding: 28px 32px 32px; }
+    .masthead-logo { width: 48px; height: 48px; }
+    .masthead-name-en { font-size: 17px; }
+    .masthead-name-cn { font-size: 13px; }
+    .masthead-title { font-size: 28px; }
+    .masthead-sub { font-size: 13px; }
+    .masthead-meta { margin-top: 14px; gap: 14px; }
+    .meta-pill { padding: 5px 14px; font-size: 11px; }
+  }
+
+  /* ── Main layout ── */
+  .container { max-width: 700px; margin: 0 auto; padding: 0 16px 60px; }
+  @media (min-width: 600px) { .container { padding: 0 24px 80px; } }
+
+  /* ── Instructions ── */
+  .instructions {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--amber);
+    border-radius: 0 0 8px 8px;
+    padding: 18px 16px;
+    margin: 16px 0;
+  }
+  @media (min-width: 600px) { .instructions { padding: 24px 24px; margin: 24px 0; } }
+
+  .instructions h2 {
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  @media (min-width: 600px) { .instructions h2 { font-size: 16px; margin-bottom: 10px; } }
+
+  .instructions p { font-size: 13px; line-height: 1.7; color: #444; }
+  @media (min-width: 600px) { .instructions p { font-size: 13.5px; } }
+
+  .scale-legend {
+    display: flex;
+    gap: 5px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 600px) { .scale-legend { gap: 6px; margin-top: 14px; } }
+
+  .scale-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f0ede4;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #555;
+    border: 1px solid #ddd;
+  }
+  @media (min-width: 600px) { .scale-item { padding: 5px 10px; font-size: 12px; gap: 6px; } }
+
+  .scale-num {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 14px;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 12px;
+  }
+  @media (min-width: 600px) { .section-header { margin: 28px 0 14px; gap: 12px; } }
+
+  .section-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  @media (min-width: 600px) { .section-dot { width: 14px; height: 14px; } }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  @media (min-width: 600px) { .section-title { font-size: 17px; } }
+
+  /* ── Question card ── */
+  .q-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 12px;
+    margin-bottom: 8px;
+    transition: box-shadow .15s, border-color .15s;
+  }
+  @media (min-width: 600px) { .q-card { padding: 18px 18px; margin-bottom: 10px; } }
+
+  .q-card:hover { border-color: #c5c0b0; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .q-card.answered { border-left: 3px solid; }
+
+  .q-num { font-size: 9px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 4px; }
+  @media (min-width: 600px) { .q-num { font-size: 10px; letter-spacing: 2px; margin-bottom: 6px; } }
+
+  .q-text { font-size: 13px; line-height: 1.5; color: #222; margin-bottom: 3px; }
+  @media (min-width: 600px) { .q-text { font-size: 14px; line-height: 1.55; margin-bottom: 4px; } }
+
+  .q-text-cn { font-size: 11px; color: var(--muted); margin-bottom: 10px; font-style: italic; }
+  @media (min-width: 600px) { .q-text-cn { font-size: 12px; margin-bottom: 12px; } }
+
+  .rating-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 600px) { .rating-row { gap: 8px; } }
+
+  .rating-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+  @media (min-width: 600px) { .rating-label { font-size: 11px; } }
+
+  .r-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 600px) { .r-btn { width: 38px; height: 38px; } }
+
+  .r-btn:hover { border-color: var(--navy); color: var(--navy); background: rgba(26,58,107,.05); }
+  .r-btn.selected {
+    color: #fff !important;
+    border-color: transparent !important;
+    transform: scale(1.08);
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 3px;
+    margin: 16px 0 6px;
+  }
+  @media (min-width: 600px) { .progress-wrap { margin: 24px 0 8px; } }
+
+  .progress-bar {
+    height: 8px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--navy), var(--blue-mid));
+    transition: width .4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+    margin-bottom: 3px;
+    letter-spacing: .5px;
+  }
+  @media (min-width: 600px) { .progress-text { font-size: 11px; } }
+
+  /* ── Submit button ── */
+  .submit-wrap { text-align: center; margin: 24px 0 20px; }
+  @media (min-width: 600px) { .submit-wrap { margin: 36px 0 24px; } }
+
+  .submit-btn {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: .5px;
+    transition: all .2s;
+    box-shadow: 0 4px 16px rgba(26,58,107,.25);
+    width: 100%;
+  }
+  @media (min-width: 600px) { .submit-btn { padding: 15px 48px; font-size: 16px; width: auto; } }
+
+  .submit-btn:hover { background: #122d56; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,58,107,.35); }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; transform: none; box-shadow: none; }
+  .submit-hint { font-size: 11px; color: var(--muted); margin-top: 8px; }
+  @media (min-width: 600px) { .submit-hint { font-size: 12px; margin-top: 10px; } }
+
+  /* ── Results panel ── */
+  #results {
+    display: none;
+    margin-top: 24px;
+  }
+  @media (min-width: 600px) { #results { margin-top: 40px; } }
+
+  .results-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px 16px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+  }
+  @media (min-width: 600px) { .results-header { padding: 28px 24px; } }
+
+  .results-header h2 { font-size: 18px; margin-bottom: 4px; }
+  @media (min-width: 600px) { .results-header h2 { font-size: 24px; margin-bottom: 6px; } }
+
+  .results-header p { font-size: 11px; color: #a0b8d8; }
+  @media (min-width: 600px) { .results-header p { font-size: 13px; } }
+
+  .results-body {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 16px;
+  }
+  @media (min-width: 600px) { .results-body { padding: 28px 24px; } }
+
+  /* Scores grid */
+  .scores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  @media (min-width: 600px) {
+    .scores-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 28px; }
+  }
+
+  .score-card {
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+    border: 2px solid;
+  }
+  @media (min-width: 600px) { .score-card { padding: 16px 12px; } }
+
+  .score-card .dim-label { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; font-weight: 600; }
+  @media (min-width: 600px) { .score-card .dim-label { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 4px; } }
+
+  .score-card .dim-cn { font-size: 10px; margin-bottom: 6px; opacity: .7; }
+  @media (min-width: 600px) { .score-card .dim-cn { font-size: 11px; margin-bottom: 8px; } }
+
+  .score-card .dim-score { font-size: 24px; font-weight: 700; line-height: 1; }
+  @media (min-width: 600px) { .score-card .dim-score { font-size: 30px; } }
+
+  .score-card .dim-max { font-size: 9px; opacity: .5; }
+  .score-card .dim-ideal { font-size: 9px; margin-top: 4px; opacity: .65; }
+  @media (min-width: 600px) { .score-card .dim-ideal { font-size: 10px; margin-top: 6px; } }
+
+  /* Radar chart */
+  .chart-section { text-align: center; margin: 20px 0; }
+  @media (min-width: 600px) { .chart-section { margin: 24px 0; } }
+
+  .chart-title {
+    font-size: 13px;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  @media (min-width: 600px) { .chart-title { font-size: 15px; margin-bottom: 16px; } }
+
+  canvas#radarChart { max-width: 340px; width: 100%; }
+  @media (min-width: 600px) { canvas#radarChart { max-width: 380px; } }
+
+  /* DBTP */
+  .dbtp-box {
+    background: linear-gradient(135deg, #f0f4fa, #e8f0e8);
+    border: 2px solid var(--blue-mid);
+    border-radius: 10px;
+    padding: 18px 16px;
+    margin: 20px 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 600px) { .dbtp-box { padding: 22px 24px; gap: 24px; margin: 24px 0; } }
+
+  .dbtp-score-wrap { text-align: center; flex-shrink: 0; }
+  .dbtp-label { font-size: 9px; letter-spacing: 1.5px; color: var(--blue-mid); text-transform: uppercase; }
+  @media (min-width: 600px) { .dbtp-label { font-size: 11px; letter-spacing: 2px; } }
+
+  .dbtp-number { font-size: 40px; font-weight: 700; line-height: 1; }
+  @media (min-width: 600px) { .dbtp-number { font-size: 52px; } }
+
+  .dbtp-text { flex: 1; min-width: 160px; }
+  .dbtp-text h3 { font-size: 14px; color: var(--navy); margin-bottom: 6px; }
+  @media (min-width: 600px) { .dbtp-text h3 { font-size: 16px; margin-bottom: 8px; } }
+
+  .dbtp-text p { font-size: 12px; line-height: 1.6; color: #444; }
+  @media (min-width: 600px) { .dbtp-text p { font-size: 13px; line-height: 1.65; } }
+
+  /* Interpretation */
+  .interpretation {
+    border-left: 4px solid;
+    padding: 16px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    background: rgba(255,255,255,.6);
+  }
+  @media (min-width: 600px) { .interpretation { padding: 18px 20px; margin: 20px 0; } }
+
+  .interpretation h3 { font-size: 14px; margin-bottom: 10px; }
+  @media (min-width: 600px) { .interpretation h3 { font-size: 15px; } }
+
+  .interpretation ul { list-style: none; padding: 0; }
+  .interpretation ul li {
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+    color: #333;
+  }
+  @media (min-width: 600px) { .interpretation ul li { font-size: 13px; padding: 5px 0; padding-left: 18px; } }
+
+  .interpretation ul li::before { content: '→'; position: absolute; left: 0; opacity: .5; }
+
+  /* Gap bars */
+  .gap-section { margin: 20px 0; }
+  @media (min-width: 600px) { .gap-section { margin: 24px 0; } }
+
+  .gap-section h3 { font-size: 14px; color: var(--navy); margin-bottom: 12px; }
+  @media (min-width: 600px) { .gap-section h3 { font-size: 15px; margin-bottom: 16px; } }
+
+  .gap-row { margin-bottom: 12px; }
+  @media (min-width: 600px) { .gap-row { margin-bottom: 14px; } }
+
+  .gap-row-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  @media (min-width: 600px) { .gap-row-header { font-size: 12px; margin-bottom: 5px; } }
+
+  .gap-track { height: 10px; background: #eee; border-radius: 50px; position: relative; overflow: visible; }
+  .gap-ideal-marker {
+    position: absolute; top: -3px; width: 3px; height: 16px;
+    background: rgba(0,0,0,.3); border-radius: 2px;
+    transform: translateX(-50%);
+  }
+  .gap-actual-bar { height: 10px; border-radius: 50px; transition: width .8s ease; }
+
+  /* Reflection */
+  .reflection-box {
+    background: #fffbf0;
+    border: 1px solid #e8d890;
+    border-radius: 8px;
+    padding: 16px 14px;
+    margin-top: 20px;
+  }
+  @media (min-width: 600px) { .reflection-box { padding: 20px 24px; margin-top: 24px; } }
+
+  .reflection-box h3 { font-size: 14px; color: #7a5a00; margin-bottom: 10px; }
+  @media (min-width: 600px) { .reflection-box h3 { font-size: 15px; margin-bottom: 12px; } }
+
+  .reflection-box ol { padding-left: 16px; }
+  @media (min-width: 600px) { .reflection-box ol { padding-left: 18px; } }
+
+  .reflection-box li { font-size: 12px; line-height: 1.6; color: #555; margin-bottom: 6px; }
+  @media (min-width: 600px) { .reflection-box li { font-size: 13px; line-height: 1.7; } }
+
+  .reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--muted);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  @media (min-width: 600px) { .reset-btn { padding: 10px 32px; font-size: 13px; margin: 28px auto 0; } }
+
+  .reset-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 20px 16px 30px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  @media (min-width: 600px) { .footer { padding: 24px 16px 40px; font-size: 12px; margin-top: 30px; } }
+
+  .footer-line { margin-bottom: 4px; }
+  .footer-line:last-child { margin-bottom: 0; }
+
+  /* color helpers */
+  .c-pp  { color: var(--fn-positive); }
+  .c-ph  { color: var(--fn-hedonistic); }
+  .c-f   { color: var(--fn-future); }
+  .c-pn  { color: var(--fn-negative); }
+  .c-pf  { color: var(--fn-fatalistic); }
+  .bg-pp { background: #edf7f0; border-color: var(--fn-positive); }
+  .bg-ph { background: #fef3e8; border-color: var(--fn-hedonistic); }
+  .bg-f  { background: #eaf2fb; border-color: var(--fn-future); }
+  .bg-pn { background: #fdecea; border-color: var(--fn-negative); }
+  .bg-pf { background: #f6eefb; border-color: var(--fn-fatalistic); }
+
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-top">
+      <img src="logo.png" alt="CUHK-Shenzhen" class="masthead-logo">
+      <div class="masthead-name">
+        <div class="masthead-name-en">Runke Huang</div>
+        <div class="masthead-name-cn">Assistant Professor, School of Humanities and Social Science</div>
+      </div>
+    </div>
+    <h1 class="masthead-title">Time Perspective<br><span>Self-Assessment</span></h1>
+    <p class="masthead-sub">时间观自评量表 — Short Zimbardo Time Perspective Inventory (SZTPI-15)</p>
+    <div class="masthead-meta">
+      <div class="meta-pill">15 题 · 约 5 分钟</div>
+      <div class="meta-pill">5 个时间观维度</div>
+      <div class="meta-pill">自动计算 DBTP 差距分</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="instructions">
+    <h2>📋 作答说明 Instructions</h2>
+    <p>以下 15 道题描述了人们对过去、现在和未来的不同态度。请根据自己的<strong>真实感受</strong>评分，不必追求"正确答案"——这个量表没有好坏之分。所有结果仅供个人参考，不会上传或保存。<br>
+    <em>Rate each statement based on how true it feels for you personally. There are no right or wrong answers. Results are for your private reflection only and will not be collected or stored.</em></p>
+    <div class="scale-legend">
+      <div class="scale-item"><span class="scale-num">1</span> 完全不符合 · Very untrue</div>
+      <div class="scale-item"><span class="scale-num">2</span> 不太符合 · Untrue</div>
+      <div class="scale-item"><span class="scale-num">3</span> 中立 · Neutral</div>
+      <div class="scale-item"><span class="scale-num">4</span> 比较符合 · True</div>
+      <div class="scale-item"><span class="scale-num">5</span> 非常符合 · Very true</div>
+    </div>
+  </div>
+
+  <div class="progress-text" id="progressText">0 / 15 完成</div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div id="questionsContainer"></div>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" id="submitBtn" disabled onclick="calculate()">
+      查看我的时间观 → See My Profile
+    </button>
+    <div class="submit-hint" id="submitHint">请先完成所有 15 道题 · Please answer all questions first</div>
+  </div>
+
+  <div id="results">
+    <div class="results-header">
+      <h2>🎯 你的时间观档案 · Your Time Perspective Profile</h2>
+      <p>基于 Short ZTPI-15 · Zimbardo & Boyd (1999); Zhang et al. (2013)</p>
+    </div>
+    <div class="results-body">
+
+      <div class="scores-grid" id="scoresGrid"></div>
+
+      <div class="chart-section">
+        <div class="chart-title">雷达图 · Radar Profile — 实线 = 你的得分，虚线 = 理想均衡TP</div>
+        <canvas id="radarChart" width="380" height="380"></canvas>
+      </div>
+
+      <div class="dbtp-box" id="dbtpBox">
+        <div class="dbtp-score-wrap">
+          <div class="dbtp-label">DBTP 差距分</div>
+          <div class="dbtp-number" id="dbtpNumber">—</div>
+          <div style="font-size:10px;color:#666;margin-top:3px;" id="dbtpBand">—</div>
+        </div>
+        <div class="dbtp-text">
+          <h3>与均衡时间观的偏离程度</h3>
+          <p id="dbtpInterpText">—</p>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h3>📊 各维度与理想均衡TP的差距 · Gap from Balanced TP Ideals</h3>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:14px;">理想分值来自 Stolarski et al. (2011)</p>
+        <div id="gapBars"></div>
+      </div>
+
+      <div class="interpretation" id="interpretBox"></div>
+
+      <div class="reflection-box">
+        <h3>💬 课堂反思问题 Reflection Questions</h3>
+        <ol>
+          <li>你得分最高的维度是什么？这个结果让你感到意外吗？<br>
+              <em>Which dimension scored highest? Does the result surprise you?</em></li>
+          <li>你的 DBTP 值处于哪个区间？与班级同学比较，你的时间观有什么特点？<br>
+              <em>Which DBTP band are you in? How does your profile compare to classmates?</em></li>
+          <li>如果你想往「均衡时间观」靠近，你最需要调整哪个维度？具体可以怎么做？<br>
+              <em>To move toward a more balanced TP, which dimension needs most adjustment? What could you do?</em></li>
+          <li>你认识的人中，有谁的时间观和甄嬛传角色相似？（😄不要指名道姓）<br>
+              <em>Do you know anyone whose TP resembles the 甄嬛传 characters we discussed?</em></li>
+        </ol>
+      </div>
+
+      <button class="reset-btn" onclick="reset()">重新作答 · Retake Assessment</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-line">© 2026 Runke Huang · School of Humanities and Social Science</div>
+    <div class="footer-line">The Chinese University of Hong Kong, Shenzhen</div>
+    <div class="footer-line">For educational use only · Adapted from Zimbardo & Boyd (1999); Zhang et al. (2013)</div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── Question bank ──────────────────────────────────────────────
+// Short ZTPI-15: 3 items per dimension
+// Dimensions: PP (Past-Positive), PH (Present-Hedonistic), F (Future), PN (Past-Negative), PF (Present-Fatalistic)
+const DIMS = {
+  PP: { label: 'Past-Positive', cn: '过去正性', color: '#2e8b57', ideal: 3.91 },
+  PH: { label: 'Present-Hedonistic', cn: '现在享乐', color: '#e67e22', ideal: 3.84 },
+  F:  { label: 'Future', cn: '未来导向', color: '#2d6a9f', ideal: 3.99 },
+  PN: { label: 'Past-Negative', cn: '过去负性', color: '#c0392b', ideal: 1.95 },
+  PF: { label: 'Present-Fatalistic', cn: '现在宿命', color: '#7b3fa0', ideal: 2.10 },
+};
+
+const QUESTIONS = [
+  // Past-Positive (PP)
+  { id: 'pp1', dim: 'PP', en: 'Happy memories of good times spring readily to mind.', cn: '美好时光的愉快记忆很容易浮现在我脑海中。' },
+  { id: 'pp2', dim: 'PP', en: 'It gives me pleasure to think about my past.', cn: '回想过去让我感到愉快。' },
+  { id: 'pp3', dim: 'PP', en: 'Familiar childhood sights, sounds, smells often bring back a flood of wonderful memories.', cn: '童年熟悉的景象、声音或气味，常常唤起我美好的回忆。' },
+
+  // Present-Hedonistic (PH)
+  { id: 'ph1', dim: 'PH', en: 'I often follow my heart rather than my head.', cn: '我常常听从内心而不是理性来行事。' },
+  { id: 'ph2', dim: 'PH', en: 'I take risks to put excitement in my life.', cn: '我愿意冒险来给生活增添刺激。' },
+  { id: 'ph3', dim: 'PH', en: 'I do things impulsively.', cn: '我做事有时会很冲动。' },
+
+  // Future (F)
+  { id: 'f1',  dim: 'F',  en: 'I am able to resist temptations when I know that there is work to be done.', cn: '当我知道有任务要完成时，我能抵制诱惑。' },
+  { id: 'f2',  dim: 'F',  en: 'I meet my obligations to friends and authorities on time.', cn: '我能按时履行对朋友和上级的承诺。' },
+  { id: 'f3',  dim: 'F',  en: 'I make lists of things to do.', cn: '我会列出待办事项清单。' },
+
+  // Past-Negative (PN)
+  { id: 'pn1', dim: 'PN', en: 'I often think of what I should have done differently in my life.', cn: '我经常想，如果重来一次，我应该做些不同的事。' },
+  { id: 'pn2', dim: 'PN', en: 'Painful past experiences keep being replayed in my mind.', cn: '痛苦的过去经历不断在我脑海中重现。' },
+  { id: 'pn3', dim: 'PN', en: "I've made mistakes in the past that I wish I could undo.", cn: '我曾犯过一些错误，真希望能够弥补。' },
+
+  // Present-Fatalistic (PF)
+  { id: 'pf1', dim: 'PF', en: "My life path is controlled by forces I cannot influence.", cn: '我的人生轨迹由我无法掌控的力量决定。' },
+  { id: 'pf2', dim: 'PF', en: 'Since whatever will be will be, it does not really matter what I do.', cn: '既然事情本来如此，我做什么其实也无所谓。' },
+  { id: 'pf3', dim: 'PF', en: "It doesn't make sense to worry about the future, since there is nothing I can do about it anyway.", cn: '担心未来没有意义，反正我也无能为力。' },
+];
+
+// Shuffle so same-dimension questions are spread out
+const SHUFFLED = [
+  QUESTIONS[0], QUESTIONS[3], QUESTIONS[6], QUESTIONS[9],  QUESTIONS[12],
+  QUESTIONS[1], QUESTIONS[4], QUESTIONS[7], QUESTIONS[10], QUESTIONS[13],
+  QUESTIONS[2], QUESTIONS[5], QUESTIONS[8], QUESTIONS[11], QUESTIONS[14],
+];
+
+const dimColors = { PP: '#2e8b57', PH: '#e67e22', F: '#2d6a9f', PN: '#c0392b', PF: '#7b3fa0' };
+const answers = {};
+let radarInstance = null;
+
+// ── Render questions ──
+function renderQuestions() {
+  const container = document.getElementById('questionsContainer');
+  let currentDim = null;
+
+  SHUFFLED.forEach((q, i) => {
+    const dim = DIMS[q.dim];
+
+    if (q.dim !== currentDim) {
+      currentDim = q.dim;
+      const sh = document.createElement('div');
+      sh.className = 'section-header';
+      sh.innerHTML = `
+        <div class="section-dot" style="background:${dim.color}"></div>
+        <div>
+          <div class="section-title" style="color:${dim.color}">${dim.label} <span style="font-weight:400;font-size:12px;color:#888">· ${dim.cn}</span></div>
+        </div>`;
+      container.appendChild(sh);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `card_${q.id}`;
+    card.style.setProperty('--dim-color', dim.color);
+
+    const btns = [1,2,3,4,5].map(v =>
+      `<button class="r-btn" data-q="${q.id}" data-v="${v}" onclick="selectAnswer('${q.id}',${v})">${v}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="q-num">Q${i+1} · ${dim.label}</div>
+      <div class="q-text">${q.en}</div>
+      <div class="q-text-cn">${q.cn}</div>
+      <div class="rating-row">
+        <span class="rating-label">完全不符合</span>
+        ${btns}
+        <span class="rating-label">非常符合</span>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function selectAnswer(qid, val) {
+  answers[qid] = val;
+
+  // Update buttons
+  document.querySelectorAll(`[data-q="${qid}"]`).forEach(btn => {
+    btn.classList.remove('selected');
+    btn.style.background = '';
+    btn.style.color = '';
+  });
+  const q = QUESTIONS.find(x => x.id === qid);
+  const chosen = document.querySelector(`[data-q="${qid}"][data-v="${val}"]`);
+  chosen.classList.add('selected');
+  chosen.style.background = dimColors[q.dim];
+
+  // Card border
+  const card = document.getElementById(`card_${qid}`);
+  card.classList.add('answered');
+  card.style.borderLeftColor = dimColors[q.dim];
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = Object.keys(answers).length;
+  const total = SHUFFLED.length;
+  document.getElementById('progressBar').style.width = (done/total*100) + '%';
+  document.getElementById('progressText').textContent = `${done} / ${total} 完成`;
+
+  const btn = document.getElementById('submitBtn');
+  if (done === total) {
+    btn.disabled = false;
+    document.getElementById('submitHint').textContent = '✓ 全部完成！点击查看你的时间观档案';
+  }
+}
+
+// ── Calculate scores ──
+function calculate() {
+  // Compute mean per dimension
+  const scores = {};
+  Object.keys(DIMS).forEach(d => {
+    const qs = QUESTIONS.filter(q => q.dim === d);
+    const total = qs.reduce((s, q) => s + (answers[q.id] || 0), 0);
+    scores[d] = +(total / qs.length).toFixed(2);
+  });
+
+  // DBTP (Stolarski et al., 2011) – Euclidean distance from ideal BTP
+  const ideals = Object.fromEntries(Object.entries(DIMS).map(([k,v]) => [k, v.ideal]));
+  const dbtp = +Math.sqrt(
+    Object.keys(scores).reduce((s, d) => s + Math.pow(scores[d] - ideals[d], 2), 0)
+  ).toFixed(2);
+
+  showResults(scores, dbtp);
+}
+
+function showResults(scores, dbtp) {
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  renderScoreCards(scores);
+  renderRadar(scores);
+  renderDBTP(dbtp, scores);
+  renderGapBars(scores);
+  renderInterpretation(scores, dbtp);
+}
+
+function renderScoreCards(scores) {
+  const grid = document.getElementById('scoresGrid');
+  grid.innerHTML = '';
+  const order = ['PP','PH','F','PN','PF'];
+  order.forEach(d => {
+    const dim = DIMS[d];
+    const s = scores[d];
+    const ideal = dim.ideal;
+    const gap = (s - ideal).toFixed(2);
+    const gapStr = gap > 0 ? `+${gap}` : `${gap}`;
+    const c = { PP:'bg-pp', PH:'bg-ph', F:'bg-f', PN:'bg-pn', PF:'bg-pf' }[d];
+    grid.innerHTML += `
+      <div class="score-card ${c}">
+        <div class="dim-label" style="color:${dim.color}">${dim.label}</div>
+        <div class="dim-cn">${dim.cn}</div>
+        <div class="dim-score" style="color:${dim.color}">${s.toFixed(1)}</div>
+        <div class="dim-max">/ 5.0</div>
+        <div class="dim-ideal" style="color:${dim.color}">Ideal: ${ideal} | Gap: ${gapStr}</div>
+      </div>`;
+  });
+}
+
+function renderRadar(scores) {
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  if (radarInstance) { radarInstance.destroy(); radarInstance = null; }
+
+  // Use shorter labels on mobile to prevent clipping
+  const isMobile = window.innerWidth < 600;
+  const labels = isMobile
+    ? ['PP\n过去正性', 'PH\n现在享乐', 'Future\n未来导向', 'PN\n过去负性', 'PF\n现在宿命']
+    : ['Past-Positive\n过去正性', 'Present-Hedon.\n现在享乐', 'Future\n未来导向', 'Past-Negative\n过去负性', 'Present-Fatal.\n现在宿命'];
+
+  const userData = [scores.PP, scores.PH, scores.F, scores.PN, scores.PF];
+  const idealData = [DIMS.PP.ideal, DIMS.PH.ideal, DIMS.F.ideal, DIMS.PN.ideal, DIMS.PF.ideal];
+
+  radarInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '你的得分 Your Score',
+          data: userData,
+          backgroundColor: 'rgba(26,58,107,.15)',
+          borderColor: '#1a3a6b',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#1a3a6b',
+          pointRadius: 5,
+        },
+        {
+          label: '理想均衡TP Balanced TP Ideal',
+          data: idealData,
+          backgroundColor: 'rgba(245,166,35,.08)',
+          borderColor: '#f5a623',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointBackgroundColor: '#f5a623',
+          pointRadius: 4,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          min: 1, max: 5,
+          ticks: { stepSize: 1, font: { size: isMobile ? 9 : 10 }, color: '#888' },
+          grid: { color: 'rgba(0,0,0,.08)' },
+          pointLabels: { font: { size: isMobile ? 9 : 10 }, color: '#444' },
+        }
+      },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: isMobile ? 10 : 11 }, padding: isMobile ? 10 : 14 } }
+      }
+    }
+  });
+}
+
+function renderDBTP(dbtp, scores) {
+  let band, color, text;
+  if (dbtp < 1.0) {
+    band = '非常均衡 · Very Balanced'; color = '#2e8b57';
+    text = '你的时间观非常接近理想均衡状态（DBTP &lt; 1.0）。研究表明均衡时间观者通常拥有更高幸福感、更强应对能力。你已经在时间心理上建立了良好的平衡，继续保持这种对过去、现在和未来的健康视角！<br><em>Your TP is very close to the ideal balanced profile. Research links balanced TP to higher well-being and resilience. Keep nurturing this healthy relationship with past, present, and future!</em>';
+  } else if (dbtp < 1.8) {
+    band = '基本均衡 · Mostly Balanced'; color = '#2d6a9f';
+    text = '你的时间观整体较为均衡（DBTP 1.0–1.8），与理想值有轻度偏差。这在大多数人中属于正常范围。可参考下方各维度差距图，识别一个你想要微调的方向，给自己一个小小的成长目标。<br><em>Your TP is moderately balanced with minor deviations — a common range. Review the gap chart below and pick one small, meaningful adjustment you would like to make.</em>';
+  } else if (dbtp < 2.5) {
+    band = '有明显偏向 · Noticeable Bias'; color = '#e67e22';
+    text = '你的时间观存在较明显的偏向（DBTP 1.8–2.5），说明某些维度与理想值差距较大。这不是问题，而是了解自己的起点。请结合雷达图看看是哪个维度拉大了差距——这也是你未来成长的潜在空间。<br><em>Your TP shows noticeable bias in one or more dimensions — a useful starting point for self-awareness and growth. Check the radar to see where your patterns diverge from the balanced ideal.</em>';
+  } else {
+    band = '偏向显著 · Strong Bias'; color = '#c0392b';
+    text = '你的时间观在某维度有较强偏向（DBTP &gt; 2.5），这反映了你与时间相处的一种独特模式。这不代表"不好"，而是说明你对过去、现在或未来有强烈的情感倾向。如果这种倾向让你感到困扰，可以试着在生活中做一些小小的实验，体验不同的时间视角。<br><em>Your TP shows a strong bias in one or more dimensions. This reflects a unique pattern, not a judgment. If this pattern feels limiting, consider small experiments to experience different time perspectives.</em>';
+  }
+
+  document.getElementById('dbtpNumber').textContent = dbtp;
+  document.getElementById('dbtpNumber').style.color = color;
+  document.getElementById('dbtpBand').textContent = band;
+  document.getElementById('dbtpBand').style.color = color;
+  document.getElementById('dbtpInterpText').innerHTML = text;
+  document.getElementById('dbtpBox').style.borderColor = color;
+}
+
+function renderGapBars(scores) {
+  const container = document.getElementById('gapBars');
+  container.innerHTML = '';
+  const order = ['PP','PH','F','PN','PF'];
+
+  order.forEach(d => {
+    const dim = DIMS[d];
+    const actual = scores[d];
+    const ideal = dim.ideal;
+    const pct = (actual / 5) * 100;
+    const idealPct = (ideal / 5) * 100;
+    const diff = (actual - ideal).toFixed(2);
+    const diffStr = diff > 0 ? `+${diff}` : `${diff}`;
+    const isGood = (d === 'PN' || d === 'PF') ? actual <= ideal : actual >= ideal;
+
+    container.innerHTML += `
+      <div class="gap-row">
+        <div class="gap-row-header">
+          <span style="color:${dim.color};font-weight:600">${dim.label} <span style="font-weight:400;color:#888">${dim.cn}</span></span>
+          <span style="color:${isGood ? '#2e8b57' : '#e67e22'}">${actual.toFixed(2)} / 5.0 · 理想 ${ideal} · 差距 ${diffStr}</span>
+        </div>
+        <div class="gap-track">
+          <div class="gap-ideal-marker" style="left:${idealPct}%"></div>
+          <div class="gap-actual-bar" style="width:${pct}%;background:${dim.color};opacity:.75"></div>
+        </div>
+      </div>`;
+  });
+}
+
+// Enhanced dimension-level and whole-profile feedback
+function renderInterpretation(scores, dbtp) {
+  const box = document.getElementById('interpretBox');
+  const lines = [];
+  const order = ['PP','PH','F','PN','PF'];
+
+  // Find dominant dimensions
+  const sortedDims = order.sort((a,b) => scores[b] - scores[a]);
+  const highest = sortedDims[0];
+  const lowest = sortedDims[4];
+
+  // Dimension-level feedback with encouraging tone
+  // Past-Negative
+  if (scores.PN > 3.0) {
+    lines.push(`你的 <strong>过去负性</strong>（Past-Negative = ${scores.PN.toFixed(2)}）得分偏高。你可能容易反复回想过去的不愉快经历。试试用「成长视角」重新解读那些事：它们教会了你什么？有什么是你从中获得的？<br><em>Your Past-Negative score is on the higher side. You may find yourself revisiting difficult past experiences. Try reframing them with a growth lens: What did they teach you? What strengths did they help you build?</em>`);
+  } else if (scores.PN < 2.0) {
+    lines.push(`你的 <strong>过去负性</strong>（Past-Negative = ${scores.PN.toFixed(2)}）得分较低，说明你不太被过去的负面回忆所困扰。这是一种很好的心理保护能力，让你更容易轻装前行。<br><em>Your Past-Negative score is relatively low, suggesting you are less burdened by negative memories. This protective quality helps you move forward more freely.</em>`);
+  }
+
+  // Past-Positive
+  if (scores.PP >= 3.5) {
+    lines.push(`你的 <strong>过去正性</strong>（Past-Positive = ${scores.PP.toFixed(2)}）得分较高！研究显示这是预测幸福感最强的TP维度。继续保持与家人、朋友的积极联结，并时常回味那些温暖的记忆。<br><em>Your Past-Positive score is quite high! Research shows this is the strongest predictor of well-being. Keep nurturing warm connections with loved ones and revisiting cherished memories.</em>`);
+  } else if (scores.PP < 2.8) {
+    lines.push(`你的 <strong>过去正性</strong>（Past-Positive = ${scores.PP.toFixed(2)}）得分偏低。你可能在「提取美好回忆」方面还有空间。试试每天晚上花一分钟，想想今天发生的哪怕一件小事，让你感到温暖或感激。<br><em>Your Past-Positive score is on the lower side. Try building the habit of savoring good memories. Each evening, take one minute to recall one small thing from today that brought you warmth or gratitude.</em>`);
+  }
+
+  // Future
+  if (scores.F >= 3.8) {
+    lines.push(`你的 <strong>未来导向</strong>（Future = ${scores.F.toFixed(2)}）得分较高，这通常与较强的目标感和自律能力相关。同时留意：为未来打拼很重要，但当下的体验和放松同样珍贵。<br><em>Your Future score is high, which often accompanies strong goal orientation and self-discipline. At the same time, remember: working toward the future matters, but so does savoring the present moment.</em>`);
+  } else if (scores.F < 2.5) {
+    lines.push(`你的 <strong>未来导向</strong>（Future = ${scores.F.toFixed(2)}）得分偏低。如果你发现自己在目标设定或长期规划上有困难，可以试着从「小目标」开始：给自己一个本周就能完成的任务，完成后记得肯定自己。<br><em>Your Future score is relatively low. If you struggle with goal-setting or long-term planning, start with small, achievable weekly goals and remember to celebrate when you complete them.</em>`);
+  }
+
+  // Present-Hedonistic
+  if (scores.PH > 3.8) {
+    lines.push(`你的 <strong>现在享乐</strong>（Present-Hedonistic = ${scores.PH.toFixed(2)}）得分较高，说明你很会享受当下！这是一份宝贵的活力。在需要做重要决定时，可以给自己留一个短暂的缓冲时间，让理性也有发言权。<br><em>Your Present-Hedonistic score is high — you know how to enjoy the moment! That's a valuable form of vitality. When making important decisions, try building in a short pause to give your rational voice a chance to speak too.</em>`);
+  } else if (scores.PH < 2.8) {
+    lines.push(`你的 <strong>现在享乐</strong>（Present-Hedonistic = ${scores.PH.toFixed(2)}）得分偏低。你可能比较少纯粹为了「当下快乐」而做事。试试每天给自己安排一段没有任何目的的放松时间——哪怕只是十分钟。<br><em>Your Present-Hedonistic score is on the lower side. You may rarely do things just for present enjoyment. Try scheduling a short daily break with no purpose other than relaxation — even ten minutes helps.</em>`);
+  }
+
+  // Present-Fatalistic
+  if (scores.PF > 2.8) {
+    lines.push(`你的 <strong>现在宿命</strong>（Present-Fatalistic = ${scores.PF.toFixed(2)}）得分偏高，表明你有时会感到事情由外力决定。当你有这种感觉时，可以试着问自己：「在这个处境中，我仍然可以掌控的一件小事是什么？」<br><em>Your Present-Fatalistic score is relatively high, suggesting you sometimes feel circumstances are outside your control. When that feeling arises, try asking: "What is one small thing I can still control in this situation?"</em>`);
+  } else if (scores.PF < 1.8) {
+    lines.push(`你的 <strong>现在宿命</strong>（Present-Fatalistic = ${scores.PF.toFixed(2)}）得分较低，说明你倾向于相信自己能够影响生活走向。这种掌控感是应对压力的重要资源。<br><em>Your Present-Fatalistic score is relatively low, indicating you tend to believe you can influence the course of your life. That sense of agency is an important resource for coping with stress.</em>`);
+  }
+
+  // Fallback for balanced profiles
+  if (lines.length === 0) {
+    lines.push(`你的各维度得分整体较为均衡，与理想均衡TP偏差较小（DBTP = ${dbtp}）。继续保持对时间的正念态度，留意生活中那些让你感到充实和平衡的时刻。<br><em>Your scores are relatively balanced across dimensions. Continue your mindful relationship with time and notice those moments when you feel most fulfilled and in balance.</em>`);
+  }
+
+  // Add whole-profile summary
+  const summaryLine = getProfileSummary(scores, sortedDims);
+  lines.push(summaryLine);
+
+  const color = scores.PP >= scores.PN ? '#2e8b57' : '#c0392b';
+  box.style.borderLeftColor = color;
+  box.innerHTML = `<h3 style="color:${color}">💡 个性化解读与建议 · Your TP Profile & Tips</h3><ul>${lines.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+}
+
+function getProfileSummary(scores, sortedDims) {
+  const highest = sortedDims[0];
+  const lowest = sortedDims[4];
+  const highestDim = DIMS[highest];
+  const lowestDim = DIMS[lowest];
+
+  // Generate encouraging whole-profile summary
+  if (scores.PP > 3.5 && scores.F > 3.5 && scores.PN < 2.5) {
+    return `<strong>整体画像：</strong>你的时间观呈现出「温暖而有序」的特点——既有对过去的感恩，也有对未来的规划。这是一种非常有利的心理资源。继续保持，同时记得给「享受当下」留一些空间。<br><em>Overall profile: Your TP shows warmth and order — gratitude for the past and planning for the future. This is a valuable psychological resource. Keep it up, and also leave room for enjoying the present.</em>`;
+  }
+
+  if (scores.PN > 3.0 && scores.PF > 2.5) {
+    return `<strong>整体画像：</strong>你的时间观带有一些「沉重感」，容易被过去和无力感牵制。这不是你的错，而是你在应对生活中的一种方式。你可以试着从小事开始，建立「我可以影响」的体验。<br><em>Overall profile: Your TP carries some heaviness, with past and helpiness weighing on you. This is not your fault — it's how you've learned to cope. Consider starting small to rebuild experiences of agency.</em>`;
+  }
+
+  if (scores.PH > 3.8 && scores.F < 2.8) {
+    return `<strong>整体画像：</strong>你非常活在当下，但可能在长期规划上较为放松。如果未来需要应对一些重要目标，可以试着把「规划」本身也变成一种有趣的当下体验。<br><em>Overall profile: You live fully in the present but may be more relaxed about long-term planning. When important goals arise, try making "planning" itself an engaging present-moment activity.</em>`;
+  }
+
+  if (scores.F > 3.8 && scores.PH < 2.5) {
+    return `<strong>整体画像：</strong>你很会为未来做准备，但可能较少让自己纯粹放松。生活不仅是冲刺，也是呼吸。给自己安排一些「无所事事」的休息时间，会让你更可持续。<br><em>Overall profile: You are good at preparing for the future but may rarely let yourself fully relax. Life is not just sprinting — it's also breathing. Schedule some "do nothing" downtime to stay sustainable.</em>`;
+  }
+
+  // Generic encouraging summary
+  return `<strong>整体画像：</strong>你最突出的维度是 ${highestDim.label}（${highestDim.cn}），而 ${lowestDim.label}（${lowestDim.cn}）相对较低。这种组合形成了你独特的时间风格——没有好坏之分。如果想尝试调整，可以先从${lowestDim.cn}维度开始，给自己一个小小的尝试。<br><em>Overall profile: Your strongest dimension is ${highestDim.label}, while ${lowestDim.label} is relatively lower. This combination creates your unique relationship with time — no better or worse than others. If you'd like to explore adjustments, consider starting with small experiments in the ${lowestDim.cn} area.</em>`;
+}
+
+function reset() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('questionsContainer').innerHTML = '';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('progressText').textContent = '0 / 15 完成';
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitHint').textContent = '请先完成所有 15 道题 · Please answer all questions first';
+  if (radarInstance) { radarInstance.destroy(); radarInstance = null; }
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuestions();
+
+
+</script>
+</body>
+</html>
